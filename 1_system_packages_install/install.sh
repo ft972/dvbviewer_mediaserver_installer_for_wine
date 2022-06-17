@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# test
 BIT=$(getconf LONG_BIT)
 
 apt-get --help &>/dev/null
