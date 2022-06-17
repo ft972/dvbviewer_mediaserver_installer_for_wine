@@ -1,0 +1,8 @@
+[Setup]
+Lang=de
+Dir=C:\Program Files\DVBViewer
+Group=DVBViewer
+NoIcons=0
+SetupType=standard
+Components=
+Tasks=startmenuicon
