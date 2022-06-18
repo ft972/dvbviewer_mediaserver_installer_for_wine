@@ -24,6 +24,7 @@ installsource="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 #wine binary
 wine_version=$dest/wine/bin/wine
 #
+#
 # DVBViewer Media Server setup file
 echo Choose DVBViewer Media Server setup file
 dmsinst=$(yad --file --width=800 --height=600 --title="DVBViewer Media Server setup file") &>/dev/null
@@ -127,6 +128,7 @@ echo "WantedBy=multi-user.target" >> $dest"/dvbviewer/dvbvserver.service"
 #dvbvserver.service start script
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo 'echo $(date "+%F %H:%M:%S")" - dvbvservice started or restarted" >> '$dest"/dvbviewer/dvbvserver_service.log" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "sleep 60" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "xvfb-run --server-args=\"-screen 0 1920x1080x24\" env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine explorer.exe /desktop&" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "sleep 20" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
@@ -134,6 +136,7 @@ echo "while(true); do" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "  pidof DVBVservice.exe" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "     if [ "'$?'" -gt "0" ]" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "    then" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo '        echo $(date "+%F %H:%M:%S")" - DVBVservice.exe crashed, stop dvbviewer bottle" >> '$dest"/dvbviewer/dvbvserver_service.log" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "        $dest/dvbviewer/dvbvserver_service_stop.sh" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "        exit" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "    fi" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
@@ -142,12 +145,14 @@ echo "done" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 chmod +x $dest"/dvbviewer/dvbvserver_service_start.sh"
 #
 #
+#
 #dvbvserver.service stop script
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbvserver_service_stop.sh"
 echo >> $dest"/dvbviewer/dvbvserver_service_stop.sh"
 echo "env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine cmd /c \"net stop DVBVRecorder\"" >> $dest"/dvbviewer/dvbvserver_service_stop.sh"
 echo "sleep 2" >> $dest"/dvbviewer/dvbvserver_service_stop.sh"
 echo "env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wineserver -k" >> $dest"/dvbviewer/dvbvserver_service_stop.sh"
+echo 'echo $(date "+%F %H:%M:%S")" - dvbvservice stopped" >> '$dest"/dvbviewer/dvbvserver_service.log" >> $dest"/dvbviewer/dvbvserver_service_stop.sh"
 chmod +x $dest"/dvbviewer/dvbvserver_service_stop.sh"
 #
 #

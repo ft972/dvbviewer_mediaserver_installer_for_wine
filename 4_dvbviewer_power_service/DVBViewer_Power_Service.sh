@@ -71,7 +71,8 @@ function get_status(){
     power_status=$[streamclientcount+rtspclientcount+unicastclientcount+rectunercount+streamtunercount+tunercount+epgudate+standbyblock+anzahl_user_short]
 }
 
-echo $(date "+%F %H:%M:%S")" - DVBViewer Power Service launched" >> DVBViewer_Power_Service.log
+echo $(date "+%F %H:%M:%S")" - DVBViewer Power Service started" >> DVBViewer_Power_Service.log
+sleep 70 # waiting for dvbvservice
 
 while true
 do
@@ -119,21 +120,29 @@ do
         if [ "$server_power" = "Standby" ]
         then
         rtcwake -m standby -s $rtc_time
+        sleep 60
+        echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         if [ "$server_power" = "Suspend-to-RAM" ]
         then
         rtcwake -m mem -s $rtc_time
+        sleep 60
+        echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         if [ "$server_power" = "Suspend-to-disk" ]
         then
         rtcwake -m disk -s $rtc_time
+        sleep 60
+        echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         if [ "$server_power" = "PowerOFF" ]
         then
         rtcwake -m off -s $rtc_time
+        sleep 60
+        echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         #Dokumentation: https://wiki.ubuntuusers.de/rtcwake/
