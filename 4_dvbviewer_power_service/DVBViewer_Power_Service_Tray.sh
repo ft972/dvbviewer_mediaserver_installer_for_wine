@@ -2,11 +2,44 @@
 
 function get_config(){
 cfg=($(cat DVBViewer_Power_Service.cfg))
+
 server_power=${cfg[0]}
 server_boot_time=${cfg[1]}
-server_url=${cfg[2]}
-server_user=${cfg[3]}
-server_pass=${cfg[4]}
+server_poweron_ssh=${cfg[2]}
+server_poweron_nfs=${cfg[3]}
+server_poweron_smb=${cfg[4]}
+server_poweron_hosts=${cfg[5]}
+server_url=${cfg[6]}
+server_user=${cfg[7]}
+server_pass=${cfg[8]}
+
+#remove quotes
+temp="${server_power%\'}"
+server_power="${temp#\'}"
+
+temp="${server_boot_time%\'}"
+server_boot_time="${temp#\'}"
+
+temp="${server_poweron_ssh%\'}"
+server_poweron_ssh="${temp#\'}"
+
+temp="${server_poweron_nfs%\'}"
+server_poweron_nfs="${temp#\'}"
+
+temp="${server_poweron_smb%\'}"
+server_poweron_smb="${temp#\'}"
+
+temp="${server_poweron_hosts%\'}"
+server_poweron_hosts="${temp#\'}"
+
+temp="${server_url%\'}"
+server_url="${temp#\'}"
+
+temp="${server_user%\'}"
+server_user="${temp#\'}"
+
+temp="${server_pass%\'}"
+server_pass="${temp#\'}"
 }
 
 get_config
@@ -44,7 +77,7 @@ get_status
 
 # create pipe
 PIPE="$HOME/.pipe.tmp"
-rm $PIPE
+rm $PIPE &>/dev/null
 mkfifo $PIPE
 exec 3<> $PIPE
 

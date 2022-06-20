@@ -107,6 +107,7 @@ rm $dest/dvbviewer_power_service/dvbvserver_power.service
 #
 echo Start Tray
 $dest"/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh"&
+disown
 #
 echo Ready
 #

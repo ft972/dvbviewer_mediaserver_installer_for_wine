@@ -2,11 +2,44 @@
 
 function get_config(){
 cfg=($(cat DVBViewer_Power_Service.cfg))
+
 server_power=${cfg[0]}
 server_boot_time=${cfg[1]}
-server_url=${cfg[2]}
-server_user=${cfg[3]}
-server_pass=${cfg[4]}
+server_poweron_ssh=${cfg[2]}
+server_poweron_nfs=${cfg[3]}
+server_poweron_smb=${cfg[4]}
+server_poweron_hosts=${cfg[5]}
+server_url=${cfg[6]}
+server_user=${cfg[7]}
+server_pass=${cfg[8]}
+
+#remove quotes
+temp="${server_power%\'}"
+server_power="${temp#\'}"
+
+temp="${server_boot_time%\'}"
+server_boot_time="${temp#\'}"
+
+temp="${server_poweron_ssh%\'}"
+server_poweron_ssh="${temp#\'}"
+
+temp="${server_poweron_nfs%\'}"
+server_poweron_nfs="${temp#\'}"
+
+temp="${server_poweron_smb%\'}"
+server_poweron_smb="${temp#\'}"
+
+temp="${server_poweron_hosts%\'}"
+server_poweron_hosts="${temp#\'}"
+
+temp="${server_url%\'}"
+server_url="${temp#\'}"
+
+temp="${server_user%\'}"
+server_user="${temp#\'}"
+
+temp="${server_pass%\'}"
+server_pass="${temp#\'}"
 }
 
 get_config
@@ -32,6 +65,8 @@ recfolders=0 #avaiblable recording folders including folder, folder size, free d
 
 
 function get_status(){
+    
+    # Check DVBViewer Media Server status---------------------------------------------------------------------------------------------
     status2=$(wget --timeout=3 --tries=1 --no-check-certificate -qO- --user $server_user --password $server_pass $server_url/api/status2.html)
 
     #next timer
@@ -53,9 +88,8 @@ function get_status(){
         nexttimer=86400
         fi
     fi
-    echo $nexttimer
 
-    #Status variables that must be 0 for switching off
+    #DVBV Media Server Status variables that must be 0 for switching off
     streamclientcount=$(echo "$status2"|grep -Po '(?<=<streamclientcount>)[^<]+')
     rtspclientcount=$(echo "$status2"|grep -Po '(?<=<rtspclientcount>)[^<]+')
     unicastclientcount=$(echo "$status2"|grep -Po '(?<=<unicastclientcount>)[^<]+')
@@ -64,11 +98,56 @@ function get_status(){
     tunercount=$(echo "$status2"|grep -Po '(?<=<tunercount>)[^<]+')
     epgudate=$(echo "$status2"|grep -Po '(?<=<epgudate>)[^<]+')
     standbyblock=$(echo "$status2"|grep -Po '(?<=<standbyblock>)[^<]+')
-    #Check whether users are logged on to the system
+
+    #Check whether users are logged on to the system----------------------------------------------------------------------------------
     anzahl_user_long=$(who --count|grep "^\#")
     anzahl_user_short=$(echo ${anzahl_user_long#*=})
 
-    power_status=$[streamclientcount+rtspclientcount+unicastclientcount+rectunercount+streamtunercount+tunercount+epgudate+standbyblock+anzahl_user_short]
+    #Check if network connections established-----------------------------------------------------------------------------------------
+    #set language to English    
+    export LC_ALL=C
+    # Check ssh
+    ssh_active="0"
+    if [ $server_poweron_ssh = "TRUE" ]
+    then
+        ssh_netstat=$(netstat --numeric-ports|grep ':22.*EST')
+        if [ -n "$ssh_netstat" ]; then
+        ssh_active="1"
+        fi
+    fi
+    # Check nfs
+    nfs_active="0"
+    if [ $server_poweron_nfs = "TRUE" ]
+    then
+        nfs_netstat=$(netstat --numeric-ports|grep ':2049.*EST')
+        if [ -n "$nfs_netstat" ]; then
+        nfs_active="1"
+        fi
+    fi
+    # Check smb
+    smb_active="0"
+    if [ $server_poweron_smb = "TRUE" ]
+    then
+        smb_netstat=$(netstat --numeric-ports|grep ':445.*EST')
+        if [ -n "$smb_netstat" ]; then
+        smb_active="1"
+        fi
+    fi
+    #set language to native
+    unset LC_ALL
+
+    # Check if hosts pingable----------------------------------------------------------------------------------------------------------
+    IFS=',' read -r -a hosts_array <<< "$server_poweron_hosts"
+    ping_active=0
+    for element in "${hosts_array[@]}"
+    do
+        ping -c 1 -W 2 "$element" &> /dev/null && ping_active="1"
+    done
+
+    # sum status
+    power_status=$[streamclientcount+rtspclientcount+unicastclientcount+rectunercount+streamtunercount+tunercount+epgudate+standbyblock+anzahl_user_short+ssh_active+nfs_active+smb_active+ping_active]
+
+
 }
 
 echo $(date "+%F %H:%M:%S")" - DVBViewer Power Service started" >> DVBViewer_Power_Service.log
@@ -97,7 +176,7 @@ do
         
     done
 
-    echo $(date "+%F %H:%M:%S")" - linux user:"$anzahl_user_short" - epg udate:"$epgudate" - standby block:"$standbyblock" - tuner used:"$tunercount >> DVBViewer_Power_Service.log
+    echo $(date "+%F %H:%M:%S")" - linux user:"$anzahl_user_short" - epg udate:"$epgudate" - standby block:"$standbyblock" - tuner used:"$tunercount" - ssh active:"$ssh_active" - nfs active:"$nfs_active" - smb active:"$smb_active" - host pingable:"$ping_active >> DVBViewer_Power_Service.log
 
     #If the boot time is greater than the next timer no energy saving
     no_power_save=$[nexttimer-server_boot_time*60-120]

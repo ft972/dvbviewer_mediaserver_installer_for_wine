@@ -174,8 +174,6 @@ if [ "$?" = "0" ]
 then
     dvbvderver_installiert=1
     echo DVBVServer is running. Must be terminated.
-    #Windows service set to disabled
-    env WINEPREFIX=$dest/dvbviewer $wine_version regedit $installsource/dvbv_service_deaktivieren.reg &>/dev/null
     sudo systemctl stop dvbvserver.service
 fi
 #
@@ -282,9 +280,7 @@ waiting_for_wineserver
 #
 if [ "$dvbvderver_installiert" = "1" ]
 then
-    echo Restart the DVBV server.
-    #set Windows service to automatic
-    env WINEPREFIX=$dest/dvbviewer $wine_version regedit $installsource/dvbv_service_automatisch.reg &>/dev/null
+    echo Restart the DVBVserver.
     sudo systemctl start dvbvserver.service
 fi
 #

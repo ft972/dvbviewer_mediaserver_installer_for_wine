@@ -1,7 +1,7 @@
 #!/bin/bash
 waiting_for_wineserver() {
     SERVICE="wineserver"
-    echo -n "Wait for wineserver to finish"
+    echo -n "Waiting for wineserver to finish"
     while pgrep -x "$SERVICE" >/dev/null
     do
     sleep 1s
@@ -42,8 +42,6 @@ then
     echo DVBVServer is running. Must be terminated.
     sudo systemctl stop dvbvserver.service
 fi
-#Windows service set to disabled
-env WINEPREFIX=$dest/dvbviewer $wine_version regedit $installsource/dvbv_service_deaktivieren.reg &>/dev/null
 #
 #
 # change dvbviewer prefix to Windows 7
@@ -64,7 +62,7 @@ env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wineserver -k
 #
 #
 # create icons-----------------------------------------------------------------
-echo create icons
+echo Create icons
 cd "$dest/dvbviewer/drive_c/Program Files/DVBViewer"
 wrestool -x --output=./DVBVCtrl.ico -t14 ./DVBVCtrl.exe
 icotool -x --width=48 --bit-depth=32 DVBVCtrl.ico
@@ -129,8 +127,10 @@ echo "WantedBy=multi-user.target" >> $dest"/dvbviewer/dvbvserver.service"
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo 'echo $(date "+%F %H:%M:%S")" - dvbvservice started or restarted" >> '$dest"/dvbviewer/dvbvserver_service.log" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
-echo "sleep 60" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "xvfb-run --server-args=\"-screen 0 1920x1080x24\" env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine explorer.exe /desktop&" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo "sleep 60" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo "env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine cmd /c \"net start DVBVRecorder\"" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "sleep 20" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "while(true); do" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "  pidof DVBVservice.exe" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
