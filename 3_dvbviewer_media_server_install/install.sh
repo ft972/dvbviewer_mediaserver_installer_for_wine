@@ -119,9 +119,14 @@ echo "ExecStart=$dest/dvbviewer/dvbvserver_service_start.sh" >> $dest"/dvbviewer
 echo "ExecStop=$dest/dvbviewer/dvbvserver_service_stop.sh" >> $dest"/dvbviewer/dvbvserver.service"
 echo "Restart=always" >> $dest"/dvbviewer/dvbvserver.service"
 echo "KillMode=process" >> $dest"/dvbviewer/dvbvserver.service"
+echo "Nice=-15" >> $dest"/dvbviewer/dvbvserver.service"
 echo  >> $dest"/dvbviewer/dvbvserver.service"
 echo "[Install]" >> $dest"/dvbviewer/dvbvserver.service"
 echo "WantedBy=multi-user.target" >> $dest"/dvbviewer/dvbvserver.service"
+#
+#00-nice.conf
+echo $USER"        -       rtprio          90" > $dest"/dvbviewer/00-nice.conf"
+echo $USER"        -       nice           -15" >> $dest"/dvbviewer/00-nice.conf"
 #
 #dvbvserver.service start script
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbvserver_service_start.sh"
@@ -160,10 +165,12 @@ chmod +x $dest"/dvbviewer/dvbvserver_service_stop.sh"
 echo Change dvbviewer prefix to WindowsXP
 env WINEARCH=win32 env WINEPREFIX=$dest/dvbviewer $wine_version winecfg /v winxp &>/dev/null
 #
+sudo cp $dest/dvbviewer/00-nice.conf /etc/security/limits.d/
 sudo cp $dest/dvbviewer/dvbvserver.service /etc/systemd/system/
 sudo systemctl enable dvbvserver.service
 sudo systemctl start dvbvserver.service
 rm $dest/dvbviewer/dvbvserver.service
+rm $dest/dvbviewer/00-nice.conf
 #
 #
 #ready

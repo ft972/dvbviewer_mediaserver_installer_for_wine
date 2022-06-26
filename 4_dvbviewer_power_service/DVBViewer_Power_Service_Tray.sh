@@ -134,10 +134,14 @@ echo "icon:$STATUSIC">&3
 # tooltip of the symbol in the tray
 echo "tooltip:$TOOLTIP" >&3
 
-
 server_url_old=$server_url
 
+sleep 10
 
-sleep 10 
+# stop DVBViewer_Power_Service_Tray.sh if no user logged in
+anzahl_user_long=$(who --count|grep "^\#")
+anzahl_user_short=$(echo ${anzahl_user_long#*=})
+[ $anzahl_user_short = 0 ] && "kill_tray.sh"
+
 done #--------------------------------------------------------------------------------------------------
 
