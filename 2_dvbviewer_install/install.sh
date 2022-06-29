@@ -328,8 +328,7 @@ chmod +x $dest"/dvbviewer/dvbviewer_start.sh"
 #DVBVDownloader
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbdownloader_start.sh"
 echo "export WINEPREFIX="$dest"/dvbviewer" >> $dest"/dvbviewer/dvbdownloader_start.sh"
-echo "env WINEPREFIX=$dest/dvbviewer $wine_version C:\\\\\Program\\ Files\\\\\\DVBViewer\\\\\\DVBVDownloader.exe&" >> $dest"/dvbviewer/dvbdownloader_start.sh"
-echo "env WINEPREFIX=$dest/dvbviewer $wine_version  cmd /c \"net stop DVBVRecorder\"" >> $dest"/dvbviewer/dvbdownloader_start.sh"
+echo "env WINEPREFIX=$dest/dvbviewer $wine_version C:\\\\\Program\\ Files\\\\\\DVBViewer\\\\\\DVBVDownloader.exe" >> $dest"/dvbviewer/dvbdownloader_start.sh"
 chmod +x $dest"/dvbviewer/dvbdownloader_start.sh"
 #
 #
