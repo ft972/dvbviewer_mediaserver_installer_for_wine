@@ -338,6 +338,13 @@ echo "export WINEPREFIX="$dest"/dvbviewer" >> $dest"/dvbviewer/keytool_start.sh"
 echo "env WINEPREFIX=$dest/dvbviewer $wine_version C:\\\\\Program\\ Files\\\\\\DVBViewer\\\\\\KeyTool.exe" >> $dest"/dvbviewer/keytool_start.sh"
 chmod +x $dest"/dvbviewer/keytool_start.sh"
 #
+#dvbviewer_run_program
+echo "#!/bin/bash" > $dest"/dvbviewer/dvbviewer_run_program.sh"
+echo 'prog=$(yad --file --width=800 --height=600 --title="Select Windows Executable") &>/dev/null' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+echo "export WINEPREFIX="$dest"/dvbviewer" >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+echo "env WINEPREFIX=$dest/dvbviewer $wine_version "'$prog' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+chmod +x $dest"/dvbviewer/dvbviewer_run_program.sh"
+#
 #
 #
 # create starter-------------------------------------------------------------
@@ -386,6 +393,17 @@ echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/KeyTool.png" >> ~/.
 echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBV-KeyTool.desktop
 chmod +x ~/.local/share/applications/DVBV-KeyTool.desktop
 #
+#
+#dvbviewer_run_program
+echo "[Desktop Entry]" > ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Name=DVBViewer Run Program" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Exec="$dest"/dvbviewer/dvbviewer_run_program.sh" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Type=Application" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "StartupNotify=true" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+chmod +x ~/.local/share/applications/DVBViewerRunProgram.desktop
 #
 #Switch to WindowsXP-----------------------------------------------------------
 echo Change dvbviewer prefix to WindowsXP
