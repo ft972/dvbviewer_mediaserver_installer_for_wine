@@ -54,10 +54,20 @@ echo "At the end of the installation, DO NOT display the web interface"
 echo "and DO NOT start the configuration."
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo
-#install DVBViewer Server
+#
+#Install DVBViewer Server
 echo Installation of DVBViewer Server
 env WINEPREFIX=$dest/dvbviewer $wine_version "$dmsinst" &>/dev/null
+sleep 2
 #
+# create service
+echo Create Windows Service
+env WINEPREFIX=$dest/dvbviewer $wine_version regedit $installsource/dvbv_service.reg &>/dev/null
+sleep 2
+#
+#Stop Windows Service
+env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine cmd /c "net stop DVBVRecorder" &>/dev/null
+sleep 2
 env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wineserver -k
 #
 #
@@ -105,9 +115,6 @@ chmod +x ~/.local/share/applications/svcoptions.desktop
 #
 #
 #
-# create service
-echo Create service
-env WINEPREFIX=$dest/dvbviewer $wine_version regedit $installsource/dvbv_service.reg &>/dev/null
 #
 #dvbvserver.service
 echo "[Unit]" > $dest"/dvbviewer/dvbvserver.service"
@@ -171,11 +178,14 @@ env WINEARCH=win32 env WINEPREFIX=$dest/dvbviewer $wine_version winecfg /v winxp
 #
 sudo cp $dest/dvbviewer/00-nice.conf /etc/security/limits.d/
 sudo cp $dest/dvbviewer/dvbvserver.service /etc/systemd/system/
-sudo systemctl enable dvbvserver.service
-sudo systemctl start dvbvserver.service
+#
 rm $dest/dvbviewer/dvbvserver.service
 rm $dest/dvbviewer/00-nice.conf
 #
+#
+sudo systemctl daemon-reload
+sudo systemctl enable dvbvserver.service
+sudo systemctl start dvbvserver.service
 #
 #ready
 echo "-----------------------------------------------"

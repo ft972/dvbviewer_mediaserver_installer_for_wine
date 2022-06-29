@@ -341,6 +341,7 @@ chmod +x $dest"/dvbviewer/keytool_start.sh"
 #dvbviewer_run_program
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo 'prog=$(yad --file --width=800 --height=600 --title="Select Windows Executable") &>/dev/null' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+echo '[ $? = 1 ] && exit' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo "export WINEPREFIX="$dest"/dvbviewer" >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo "env WINEPREFIX=$dest/dvbviewer $wine_version "'$prog' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 chmod +x $dest"/dvbviewer/dvbviewer_run_program.sh"

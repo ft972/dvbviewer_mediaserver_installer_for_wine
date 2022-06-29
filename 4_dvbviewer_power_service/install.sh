@@ -101,6 +101,7 @@ echo "WantedBy=multi-user.target" >> $dest"/dvbviewer_power_service/dvbvserver_p
 #
 #
 sudo cp $dest/dvbviewer_power_service/dvbvserver_power.service /etc/systemd/system/
+sudo systemctl daemon-reload
 sudo systemctl enable dvbvserver_power.service
 sudo systemctl start dvbvserver_power.service
 rm $dest/dvbviewer_power_service/dvbvserver_power.service
