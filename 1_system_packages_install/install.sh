@@ -31,7 +31,7 @@ echo
 echo "The following tools are used:"
 echo "a 32 bit version of Wine"
 echo "yad wget tar pidof pgrep unzip wrestool icotool sed 7z"
-echo "cabextract rtcwake"
+echo "cabextract rtcwake convert(imagemagick)"
 echo ""
 
 if [ $BIT = 64 ] && [ $PKGMANAGER = "apt" ]
@@ -46,7 +46,7 @@ sudo apt-get update
 echo ""
 echo "Update package sources:"
 echo ""
-sudo apt-get install wine32 wget unzip icoutils yad xvfb cabextract p7zip-full gstreamer1.0-tools:i386 gstreamer1.0-libav:i386 gstreamer1.0-plugins-bad:i386 gstreamer1.0-plugins-ugly:i386 ttf-mscorefonts-installer:i386
+sudo apt-get install imagemagick wine32 wget unzip icoutils yad xvfb cabextract p7zip-full gstreamer1.0-tools:i386 gstreamer1.0-libav:i386 gstreamer1.0-plugins-bad:i386 gstreamer1.0-plugins-ugly:i386 ttf-mscorefonts-installer:i386
 echo ""
 echo "Ready"
 exit
@@ -62,7 +62,7 @@ sudo apt-get update
 echo ""
 echo "Install packages:"
 echo ""
-sudo apt-get install wine wget unzip icoutils yad xvfb cabextract p7zip-full gstreamer1.0-tools gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly ttf-mscorefonts-installer
+sudo apt-get install imagemagick wine wget unzip icoutils yad xvfb cabextract p7zip-full gstreamer1.0-tools gstreamer1.0-libav gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly ttf-mscorefonts-installer
 echo ""
 echo "Ready"
 exit
@@ -83,7 +83,7 @@ else
 echo ""
 echo "Install packages:"
 echo ""
-sudo pacman -S wine wget unzip icoutils yad xorg-server-xvfb cabextract p7zip lib32-gstreamer
+sudo pacman -S imagemagick wine wget unzip icoutils yad xorg-server-xvfb cabextract p7zip lib32-gstreamer
 echo ""
 echo "Ready"
 exit
@@ -100,7 +100,7 @@ sudo dnf check-update
 echo ""
 echo "Install packages:"
 echo ""
-sudo dnf install wine.i686 wget unzip icoutils yad xorg-x11-server-Xvfb cabextract p7zip p7zip-plugins gstreamer1.i686 gstreamer1-plugins-bad-free.i686 gstreamer1-plugins-bad-free-extras.i686 gstreamer1-plugins-base.i686 gstreamer1-plugins-good.i686 gstreamer1-plugins-good-extras.i686 gstreamer1-plugins-ugly-free.i686 mscore-fonts-all
+sudo dnf install ImageMagick wine.i686 wget unzip icoutils yad xorg-x11-server-Xvfb cabextract p7zip p7zip-plugins gstreamer1.i686 gstreamer1-plugins-bad-free.i686 gstreamer1-plugins-bad-free-extras.i686 gstreamer1-plugins-base.i686 gstreamer1-plugins-good.i686 gstreamer1-plugins-good-extras.i686 gstreamer1-plugins-ugly-free.i686 mscore-fonts-all
 echo ""
 echo "Ready"
 exit

@@ -15,7 +15,6 @@ mkdir $dest/dvbviewer_power_service  &>/dev/null
 cp $installsource/DVBViewer_Power_Service.cfg $dest/dvbviewer_power_service/
 cp $installsource/DVBViewer_Power_Service.sh $dest/dvbviewer_power_service/
 cp $installsource/DVBViewer_Power_Service_Config.sh $dest/dvbviewer_power_service/
-cp $installsource/dialog-error.png $dest/dvbviewer_power_service/
 cp $installsource/DVBViewer_Power_Service_Tray.sh $dest/dvbviewer_power_service/
 cp $installsource/kill_tray.sh $dest/dvbviewer_power_service/
 cp $installsource/dvbserver_start.sh $dest/dvbviewer_power_service/
@@ -25,8 +24,11 @@ cp $installsource/dvbserver_ps_stop.sh $dest/dvbviewer_power_service/
 cp $installsource/webinterface.sh $dest/dvbviewer_power_service/
 
 #
-cp "$dest/dvbviewer/drive_c/Program Files/DVBViewer/DVBVCtrl.png" $dest/dvbviewer_power_service/
 cp "$dest/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" $dest/dvbviewer_power_service/
+convert $dest/"dvbviewer_power_service/DVBViewer.png" -colorspace gray -fill gray -tint 100 $dest/"dvbviewer_power_service/gray.png"
+convert $dest/"dvbviewer_power_service/DVBViewer.png" -colorspace gray -fill "#cc0000" -tint 100 $dest/"dvbviewer_power_service/red.png"
+convert $dest/"dvbviewer_power_service/DVBViewer.png" -colorspace gray -fill "#0b5394" -tint 100 $dest/"dvbviewer_power_service/blue.png"
+rm $dest/"dvbviewer_power_service/DVBViewer.png" 
 #
 chmod +x $dest/dvbviewer_power_service/DVBViewer_Power_Service.sh
 chmod +x $dest/dvbviewer_power_service/DVBViewer_Power_Service_Config.sh
@@ -54,9 +56,9 @@ sed -i -e "s#webinterface.sh#$dest/dvbviewer_power_service/webinterface.sh#g" $d
 #
 sed -i -e "s#oscam_dir#$dest/oscam#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
 #
-sed -i -e "s#dialog-error.png#$dest/dvbviewer_power_service/dialog-error.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
-sed -i -e "s#DVBVCtrl.png#$dest/dvbviewer_power_service/DVBVCtrl.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
-sed -i -e "s#DVBViewer.png#$dest/dvbviewer_power_service/DVBViewer.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
+sed -i -e "s#gray.png#$dest/dvbviewer_power_service/gray.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
+sed -i -e "s#blue.png#$dest/dvbviewer_power_service/blue.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
+sed -i -e "s#red.png#$dest/dvbviewer_power_service/red.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
 
 
 
@@ -81,7 +83,7 @@ echo "Exec="$dest"/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh" >> ~
 echo "Type=Application" >> ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
 echo "StartupNotify=false" >> ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
 echo "Path="$dest"/dvbviewer_power_service" >> ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
-echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/svcoptions.png" >> ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
+echo "Icon="$dest"/dvbviewer_power_service/blue.png" >> ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
 echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
 chmod +x ~/.local/share/applications/DVBViewer_Power_Service_Tray.desktop
 #

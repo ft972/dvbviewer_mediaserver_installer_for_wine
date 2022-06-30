@@ -45,7 +45,7 @@ server_pass="${temp#\'}"
 get_config
 
 reccount=5
-STATUSIC="DVBVCtrl.png"
+STATUSIC="blue.png"
 
 function get_status(){
     status2=$(wget --timeout=3 --tries=1 --no-check-certificate -qO- --user $server_user --password $server_pass $server_url/api/status2.html)
@@ -55,18 +55,18 @@ function get_status(){
 
     if [ -z "$reccount" ]
     then
-       STATUSIC="dialog-error.png"
+       STATUSIC="gray.png"
        TOOLTIP="server not reachable"
     else
        if [ "$reccount" -gt "0" ] 
        then
-       STATUSIC="DVBViewer.png"
+       STATUSIC="red.png"
        TOOLTIP="recording in progress"
        fi
 
        if [ "$reccount" -eq "0" ] 
        then
-       STATUSIC="DVBVCtrl.png"
+       STATUSIC="blue.png"
        TOOLTIP="No recordings"
        fi
     fi

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by DVBViewer Media Server: 30.06.2022 06:07:35-->
+  <Tasks Ver="1">
+    <task name="Force REBOOT Linux (even if timers are active)" tasktype="1">
+      <Description>Reboot Linux</Description>
+      <Properties>
+        <Filename>start</Filename>
+        <Parameters>/unix /bin/sudo /sbin/reboot</Parameters>
+        <WorkDir>C:\windows\</WorkDir>
+        <AsUser>0</AsUser>
+        <Priority>0</Priority>
+        <MaxDuration>720</MaxDuration>
+      </Properties>
+    </task>
+    <task name="Force POWEROFF Linux (even if timers are active, no automatic wake up)" tasktype="1">
+      <Description>PowerOFF Linux</Description>
+      <Properties>
+        <Filename>start</Filename>
+        <Parameters>/unix /bin/sudo /sbin/poweroff</Parameters>
+        <WorkDir>C:\windows\</WorkDir>
+        <AsUser>0</AsUser>
+        <Priority>0</Priority>
+        <MaxDuration>720</MaxDuration>
+      </Properties>
+    </task>
+  </Tasks>

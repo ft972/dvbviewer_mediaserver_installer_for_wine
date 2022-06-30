@@ -176,13 +176,21 @@ chmod +x $dest"/dvbviewer/dvbvserver_service_stop.sh"
 echo Change dvbviewer prefix to WindowsXP
 env WINEARCH=win32 env WINEPREFIX=$dest/dvbviewer $wine_version winecfg /v winxp &>/dev/null
 #
-sudo cp $dest/dvbviewer/00-nice.conf /etc/security/limits.d/
-sudo cp $dest/dvbviewer/dvbvserver.service /etc/systemd/system/
 #
-rm $dest/dvbviewer/dvbvserver.service
+#permission to reboot & shutdown
+sudoers=$(sudo cat /etc/sudoers|grep $USER' ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown')
+[ -z "$sudoers" ] && echo "$USER ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown" | sudo tee -a /etc/sudoers
+cp -f $installsource"/tasks.xml" $dest"/dvbviewer/drive_c/Program Files/DVBViewer/config/" &>/dev/null
+#
+#
+#permission to set nice & rtprio
+sudo cp $dest/dvbviewer/00-nice.conf /etc/security/limits.d/
 rm $dest/dvbviewer/00-nice.conf
 #
 #
+#Linux dvbvserver service
+sudo cp $dest/dvbviewer/dvbvserver.service /etc/systemd/system/
+rm $dest/dvbviewer/dvbvserver.service
 sudo systemctl daemon-reload
 sudo systemctl enable dvbvserver.service
 sudo systemctl start dvbvserver.service
