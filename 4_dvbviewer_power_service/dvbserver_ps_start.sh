@@ -1,4 +1,4 @@
 #!/bin/bash
 
-systemctl start dvbvserver_power.service
+sudo systemctl start dvbvserver_power.service
 

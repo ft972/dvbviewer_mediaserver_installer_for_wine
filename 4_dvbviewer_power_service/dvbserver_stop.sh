@@ -1,3 +1,3 @@
 #!/bin/bash
 
-systemctl stop dvbvserver.service
+sudo systemctl stop dvbvserver.service

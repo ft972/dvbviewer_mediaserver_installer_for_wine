@@ -1,5 +1,17 @@
 #!/bin/bash
-
+#
+IS_SUDO=$(groups|grep sudo)
+if [ -z "$IS_SUDO" ]
+then
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "User \"$USER\" is not a member of the sudo group."
+echo "Please add him to this group before installation the DVBViewer."
+echo "Please run this command in a root shell: \"usermod -a -G sudo $USER\""
+echo "or use the graphical user manager."
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+exit
+fi
+#
 clear
 #set variables-----------------------------------------------------------------
 #
@@ -24,10 +36,16 @@ cp $installsource/dvbserver_ps_stop.sh $dest/dvbviewer_power_service/
 cp $installsource/webinterface.sh $dest/dvbviewer_power_service/
 
 #
+cp $installsource"/warning.png" $dest/dvbviewer_power_service/
 cp "$dest/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" $dest/dvbviewer_power_service/
 convert $dest/"dvbviewer_power_service/DVBViewer.png" -colorspace gray -fill gray -tint 100 $dest/"dvbviewer_power_service/gray.png"
 convert $dest/"dvbviewer_power_service/DVBViewer.png" -colorspace gray -fill "#cc0000" -tint 100 $dest/"dvbviewer_power_service/red.png"
 convert $dest/"dvbviewer_power_service/DVBViewer.png" -colorspace gray -fill "#0b5394" -tint 100 $dest/"dvbviewer_power_service/blue.png"
+#
+composite -compose atop  $dest/"dvbviewer_power_service/warning.png" $dest/"dvbviewer_power_service/red.png" $dest/"dvbviewer_power_service/red_warn.png"
+composite -compose atop  $dest/"dvbviewer_power_service/warning.png" $dest/"dvbviewer_power_service/gray.png" $dest/"dvbviewer_power_service/gray_warn.png"
+composite -compose atop  $dest/"dvbviewer_power_service/warning.png" $dest/"dvbviewer_power_service/blue.png" $dest/"dvbviewer_power_service/blue_warn.png"
+#
 rm $dest/"dvbviewer_power_service/DVBViewer.png" 
 #
 chmod +x $dest/dvbviewer_power_service/DVBViewer_Power_Service.sh
@@ -59,7 +77,10 @@ sed -i -e "s#oscam_dir#$dest/oscam#g" $dest/dvbviewer_power_service/DVBViewer_Po
 sed -i -e "s#gray.png#$dest/dvbviewer_power_service/gray.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
 sed -i -e "s#blue.png#$dest/dvbviewer_power_service/blue.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
 sed -i -e "s#red.png#$dest/dvbviewer_power_service/red.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
-
+#
+sed -i -e "s#gray_warn.png#$dest/dvbviewer_power_service/gray_warn.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
+sed -i -e "s#blue_warn.png#$dest/dvbviewer_power_service/blue_warn.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
+sed -i -e "s#red_warn.png#$dest/dvbviewer_power_service/red_warn.png#g" $dest/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh
 
 
 # create starter-------------------------------------------------------------
@@ -94,7 +115,7 @@ echo "[Unit]" > $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo "Description=Run DVBViewer Recording Power Service" >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo  >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo "[Service]" >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
-#echo "User="$USER >> $dest"/dvbviewer/dvbvserver_power.service"
+echo "User="$USER >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo "ExecStart=$dest/dvbviewer_power_service/DVBViewer_Power_Service.sh" >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo "Restart=always" >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo  >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
@@ -102,11 +123,20 @@ echo "[Install]" >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 echo "WantedBy=multi-user.target" >> $dest"/dvbviewer_power_service/dvbvserver_power.service"
 #
 #
-sudo cp $dest/dvbviewer_power_service/dvbvserver_power.service /etc/systemd/system/
+#permission to rtcwake whithout password
+sudoers=$(sudo cat /etc/sudoers|grep $USER' ALL=(ALL) NOPASSWD: /sbin/rtcwake')
+[ -z "$sudoers" ] && echo "$USER ALL=(ALL) NOPASSWD: /sbin/rtcwake" | sudo tee -a /etc/sudoers &>/dev/null
+#
+#permission to systemctl whithout password
+sudoers=$(sudo cat /etc/sudoers|grep $USER' ALL=(ALL) NOPASSWD: /bin/systemctl')
+[ -z "$sudoers" ] && echo "$USER ALL=(ALL) NOPASSWD: /bin/systemctl" | sudo tee -a /etc/sudoers &>/dev/null
+#
+#
+sudo cp -f $dest/dvbviewer_power_service/dvbvserver_power.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable dvbvserver_power.service
 sudo systemctl start dvbvserver_power.service
-rm $dest/dvbviewer_power_service/dvbvserver_power.service
+#rm $dest/dvbviewer_power_service/dvbvserver_power.service
 #
 echo Start Tray
 $dest"/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh"&

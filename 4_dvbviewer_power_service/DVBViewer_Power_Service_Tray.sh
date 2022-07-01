@@ -53,22 +53,52 @@ function get_status(){
     # set STATUSIC and TOOLTIP depending on the reccount
     reccount=$(echo "$status2"|grep -Po '(?<=<reccount>)[^<]+')
 
-    if [ -z "$reccount" ]
-    then
-       STATUSIC="gray.png"
-       TOOLTIP="server not reachable"
-    else
-       if [ "$reccount" -gt "0" ] 
-       then
-       STATUSIC="red.png"
-       TOOLTIP="recording in progress"
-       fi
+    pidof -x -q DVBViewer_Power_Service.sh  &>/dev/null
 
-       if [ "$reccount" -eq "0" ] 
-       then
-       STATUSIC="blue.png"
-       TOOLTIP="No recordings"
-       fi
+    if [ "$?" = "0" ]
+    then
+
+        if [ -z "$reccount" ]
+        then
+            STATUSIC="gray.png"
+            TOOLTIP="server not reachable"
+        else
+
+            if [ "$reccount" -gt "0" ] 
+            then
+                STATUSIC="red.png"
+                TOOLTIP="recording in progress"
+            fi
+
+            if [ "$reccount" -eq "0" ] 
+            then
+               STATUSIC="blue.png"
+               TOOLTIP="no recordings"
+            fi
+
+       fi 
+  
+    else
+
+        if [ -z "$reccount" ]
+        then
+            STATUSIC="gray_warn.png"
+            TOOLTIP="server not reachable - DVBViewer Power Service stopped"
+        else
+
+            if [ "$reccount" -gt "0" ] 
+            then
+                STATUSIC="red_warn.png"
+                TOOLTIP="recording in progress - DVBViewer Power Service stopped"
+            fi
+
+            if [ "$reccount" -eq "0" ] 
+            then
+               STATUSIC="blue_warn.png"
+               TOOLTIP="no recordings - DVBViewer Power Service stopped"
+            fi
+ 
+        fi
     fi
 
 }

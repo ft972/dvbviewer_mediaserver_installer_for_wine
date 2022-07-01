@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 waiting_for_wineserver() {
     SERVICE="wineserver"
     echo -n "Waiting for wineserver to finish"
@@ -10,6 +11,18 @@ waiting_for_wineserver() {
     echo
     sleep 2s
 }
+#
+IS_SUDO=$(groups|grep sudo)
+if [ -z "$IS_SUDO" ]
+then
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "User \"$USER\" is not a member of the sudo group."
+echo "Please add him to this group before installation the DVBViewer."
+echo "Please run this command in a root shell: \"usermod -a -G sudo $USER\""
+echo "or use the graphical user manager."
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+exit
+fi
 #
 clear
 #
@@ -177,9 +190,9 @@ echo Change dvbviewer prefix to WindowsXP
 env WINEARCH=win32 env WINEPREFIX=$dest/dvbviewer $wine_version winecfg /v winxp &>/dev/null
 #
 #
-#permission to reboot & shutdown
+#permission to reboot & shutdown whithout password
 sudoers=$(sudo cat /etc/sudoers|grep $USER' ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown')
-[ -z "$sudoers" ] && echo "$USER ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown" | sudo tee -a /etc/sudoers
+[ -z "$sudoers" ] && echo "$USER ALL=(ALL) NOPASSWD: /sbin/poweroff, /sbin/reboot, /sbin/shutdown" | sudo tee -a /etc/sudoers &>/dev/null
 cp -f $installsource"/tasks.xml" $dest"/dvbviewer/drive_c/Program Files/DVBViewer/config/" &>/dev/null
 #
 #

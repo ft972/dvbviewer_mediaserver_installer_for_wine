@@ -1,3 +1,3 @@
 #!/bin/bash
 
-systemctl stop dvbvserver_power.service
+sudo systemctl stop dvbvserver_power.service

@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 waiting_for_wineserver() {
     SERVICE="wineserver"
     echo -n "Waiting for wineserver to finish"
@@ -10,6 +11,18 @@ waiting_for_wineserver() {
     echo
     sleep 2s
 }
+#
+IS_SUDO=$(groups|grep sudo)
+if [ -z "$IS_SUDO" ]
+then
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "User \"$USER\" is not a member of the sudo group."
+echo "Please add him to this group before installation the DVBViewer."
+echo "Please run this command in a root shell: \"usermod -a -G sudo $USER\""
+echo "or use the graphical user manager."
+echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+exit
+fi
 #
 clear
 #

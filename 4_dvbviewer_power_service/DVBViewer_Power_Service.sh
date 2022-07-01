@@ -198,28 +198,28 @@ do
 
         if [ "$server_power" = "Standby" ]
         then
-        rtcwake -m standby -s $rtc_time
+        sudo rtcwake -m standby -s $rtc_time
         sleep 60
         echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         if [ "$server_power" = "Suspend-to-RAM" ]
         then
-        rtcwake -m mem -s $rtc_time
+        sudo rtcwake -m mem -s $rtc_time
         sleep 60
         echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         if [ "$server_power" = "Suspend-to-disk" ]
         then
-        rtcwake -m disk -s $rtc_time
+        sudo rtcwake -m disk -s $rtc_time
         sleep 60
         echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
 
         if [ "$server_power" = "PowerOFF" ]
         then
-        rtcwake -m off -s $rtc_time
+        sudo rtcwake -m off -s $rtc_time
         sleep 60
         echo $(date "+%F %H:%M:%S")" - woke up from $server_power" >> DVBViewer_Power_Service.log
         fi
