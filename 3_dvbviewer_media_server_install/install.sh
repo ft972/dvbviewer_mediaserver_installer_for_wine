@@ -200,6 +200,9 @@ cp -f $installsource"/tasks.xml" $dest"/dvbviewer/drive_c/Program Files/DVBViewe
 sudo cp $dest/dvbviewer/00-nice.conf /etc/security/limits.d/
 rm $dest/dvbviewer/00-nice.conf
 #
+#set permission to use low ports
+sudo setcap CAP_NET_BIND_SERVICE=+eip "$dest/dvbviewer/drive_c/Program Files/DVBViewer/DVBVservice.exe"
+sudo setcap CAP_NET_BIND_SERVICE=+eip "$dest/wine/bin/wineserver"
 #
 #Linux dvbvserver service
 sudo cp $dest/dvbviewer/dvbvserver.service /etc/systemd/system/
