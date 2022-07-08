@@ -136,12 +136,18 @@ sudo cp -f $dest/dvbviewer_power_service/dvbvserver_power.service /etc/systemd/s
 sudo systemctl daemon-reload
 sudo systemctl enable dvbvserver_power.service
 sudo systemctl start dvbvserver_power.service
-#rm $dest/dvbviewer_power_service/dvbvserver_power.service
+rm $dest/dvbviewer_power_service/dvbvserver_power.service
+#
+# Stop & start Tray
+echo Stop Tray
+pkill yad
+pkill -f DVBViewer_Power_Service_Tray.sh
+rm ~/.pipe.tmp &>/dev/null
 #
 echo Start Tray
 $dest"/dvbviewer_power_service/DVBViewer_Power_Service_Tray.sh"&
 disown
 #
-echo Ready
+echo Ready.
 #
 

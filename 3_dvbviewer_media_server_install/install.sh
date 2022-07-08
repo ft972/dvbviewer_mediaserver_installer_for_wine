@@ -157,8 +157,10 @@ echo "#!/bin/bash" > $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo 'echo $(date "+%F %H:%M:%S")" - dvbvservice started or restarted" >> '$dest"/dvbviewer/dvbvserver_service.log" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo "export LD_PRELOAD=libreuseport_i386.so"  >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "xvfb-run --server-args=\"-screen 0 1920x1080x24\" env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine explorer.exe /desktop&" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
-echo "sleep 60" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+#echo "sleep 60" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
+echo "sleep 1" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "env WINEPREFIX=$dest/dvbviewer $dest/wine/bin/wine cmd /c \"net start DVBVRecorder\"" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "sleep 20" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
 echo "while(true); do" >> $dest"/dvbviewer/dvbvserver_service_start.sh"
@@ -201,8 +203,15 @@ sudo cp $dest/dvbviewer/00-nice.conf /etc/security/limits.d/
 rm $dest/dvbviewer/00-nice.conf
 #
 #set permission to use low ports
+# If set, then LD_PRELOAD is ignored. Needed for reuse ports. (libreuseport_i386.so)
 sudo setcap CAP_NET_BIND_SERVICE=+eip "$dest/dvbviewer/drive_c/Program Files/DVBViewer/DVBVservice.exe"
 sudo setcap CAP_NET_BIND_SERVICE=+eip "$dest/wine/bin/wineserver"
+#
+#set permission to use reuse ports
+#copy libreuseport_i386.so
+sudo cp -f $installsource/binary/libreuseport_i386.so /usr/lib/
+sudo chown root:root /usr/lib/libreuseport_i386.so
+sudo chmod u+s /usr/lib/libreuseport_i386.so
 #
 #Linux dvbvserver service
 sudo cp $dest/dvbviewer/dvbvserver.service /etc/systemd/system/
@@ -212,10 +221,11 @@ sudo systemctl enable dvbvserver.service
 sudo systemctl start dvbvserver.service
 #
 #ready
-echo "-----------------------------------------------"
-echo "Ready. The media server is accessible in 60s."
-echo "-----------------------------------------------"
-
+#echo "-----------------------------------------------"
+#echo "Ready. The media server is accessible in 60s."
+#echo "-----------------------------------------------"
+echo "Ready."
+echo "Please do a reboot."
 
 
 
