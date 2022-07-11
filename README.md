@@ -11,7 +11,7 @@ System requirements
 - Desktop environment: Cinnamon, Mate, Plasma, Xfce
 
 In principle, other distributions are also possible. The following requirements must be met:
-- The dependencies / tools listed under "point 1_system_packages_install" must be installed and multiarch must be enabled for i386. This must be done manually the installer from point "1_system_packages_install" does not work outside of Debian / Ubuntu.
+- The dependencies / tools listed under "point 1_system_packages_install" must be installed and multiarch must be enabled for i386. This must be done manually. The installer from point "1_system_packages_install" does not work outside of Debian / Ubuntu.
 - The desktop environment must support tray icons. Unfortunately, in Gnome 3, for example, this is only possible with [extensions](https://github.com/phocean/TopIcons-plus).
 
 
