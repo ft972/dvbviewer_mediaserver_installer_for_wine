@@ -18,7 +18,7 @@ In principle, other distributions are also possible. The following requirements 
 1_system_packages_install
 -------------------------
 Make the file install.sh executable and run it in a shell. This will install all necessary dependencies and tools and set multiarch to i386.
-The following packages/tools are needed:
+The following packages/tools are installed:
 32 bit version of Wine & gstreamer, yad, wget, tar, pidof, pgrep, unzip, wrestool, icotool, sed, 7z, cabextract, rtcwake, convert (imagemagick), xvfb
 
 2_dvbviewer_install
