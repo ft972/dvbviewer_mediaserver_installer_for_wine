@@ -7,6 +7,6 @@ Created and tested with Linux Mint 20.3
 System requirements
 -------------------
 - Distribution: Debian or Ubuntu based
-- Desktop environment: Cinnamon, Mate, Xfce, Plasma
+- Desktop environment: Cinnamon, Mate, Plasma, Xfce
 
 More comming soon...
