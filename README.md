@@ -22,11 +22,13 @@ The following packages/tools are needed:
 
 2_dvbviewer_install
 -------------------
+Make the file install.sh executable and run it in a shell.
 
 3_dvbviewer_media_server_install
 --------------------------------
+Make the file install.sh executable and run it in a shell.
 
 4_dvbviewer_power_service_install
 ---------------------------------
+Make the file install.sh executable and run it in a shell.
 
-More comming soon...
