@@ -9,4 +9,16 @@ System requirements
 - Distribution: Debian or Ubuntu based
 - Desktop environment: Cinnamon, Mate, Plasma, Xfce
 
+1_system_packages_install
+-------------------------
+
+2_dvbviewer_install
+-------------------
+
+3_dvbviewer_media_server_install
+--------------------------------
+
+4_dvbviewer_power_service_install
+---------------------------------
+
 More comming soon...
