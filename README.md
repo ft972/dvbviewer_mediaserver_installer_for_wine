@@ -1,13 +1,17 @@
 dvbviewer_mediaserver_installer_for_wine
 ========================================
-Scripts for installing the DVBViewer media server in Debian / Ubuntu based Linux under Wine.
-
-Created and tested with Linux Mint 20.3
+Scripts for installing the [DVBViewer Media Server](https://dvbviewer.com/) in Debian / Ubuntu based Linux under Wine.
+Please do not install in a productive environment. This is still a beta version.
 
 System requirements
 -------------------
 - Distribution: Debian or Ubuntu based
 - Desktop environment: Cinnamon, Mate, Plasma, Xfce
+
+In principle, other distributions are also possible. The following requirements must be met:
+- The dependencies listed under "point 1_system_packages_install" must be installed and multiarch must be enabled for i386. This must be done manually the installer from point "1_system_packages_install" does not work outside of Debian / Ubuntu.
+- The desktop environment must support tray icons. Unfortunately, in Gnome 3, for example, this is only possible with [extensions](https://github.com/phocean/TopIcons-plus).
+
 
 1_system_packages_install
 -------------------------
