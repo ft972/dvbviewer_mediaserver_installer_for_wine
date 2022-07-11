@@ -1,6 +1,6 @@
 dvbviewer_mediaserver_installer_for_wine
 ========================================
-Scripts for installing the DVBViewer media server in Linux (wine)
+Scripts for installing the DVBViewer media server in Debian / Ubuntu based Linux under Wine.
 
 Created and tested with Linux Mint 20.3
 
