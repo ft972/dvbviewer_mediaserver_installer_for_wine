@@ -13,20 +13,7 @@ System requirements
 -------------------------
 Make the file install.sh executable and run it in a shell. This will install all necessary dependencies and tools.
 The following packages/tools are needed:
-32 bit version of Wine
-yad
-wget
-tar
-pidof
-pgrep
-unzip
-wrestool
-icotool
-sed
-7z
-cabextract
-rtcwake
-convert (imagemagick)
+32 bit version of Wine, yad, wget, tar, pidof, pgrep, unzip, wrestool, icotool, sed, 7z, cabextract, rtcwake, convert (imagemagick)
 
 2_dvbviewer_install
 -------------------
