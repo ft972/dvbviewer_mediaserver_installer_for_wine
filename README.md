@@ -6,9 +6,9 @@ Please do not install in a productive environment. This is still a beta version.
 
 System requirements
 -------------------
+- The setup files from DVBViewerPro and Mediaserver with a valid license
 - Distribution: Debian or Ubuntu based
 - Desktop environment: Cinnamon, Mate, Plasma, Xfce
-- The setup files from DVBViewerPro and Mediaserver with a valid license
 
 In principle, other distributions are also possible. The following requirements must be met:
 - The dependencies listed under "point 1_system_packages_install" must be installed and multiarch must be enabled for i386. This must be done manually the installer from point "1_system_packages_install" does not work outside of Debian / Ubuntu.
