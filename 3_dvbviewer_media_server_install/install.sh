@@ -117,13 +117,13 @@ echo Create starter
 #
 #svcoptions
 echo "[Desktop Entry]" > ~/.local/share/applications/svcoptions.desktop
-echo "Name=DVBV-SVCOptions" >> ~/.local/share/applications/svcoptions.desktop
+echo "Name=Media Server Options" >> ~/.local/share/applications/svcoptions.desktop
 echo "Exec="$dest"/dvbviewer/svcoptions_start.sh" >> ~/.local/share/applications/svcoptions.desktop
 echo "Type=Application" >> ~/.local/share/applications/svcoptions.desktop
 echo "StartupNotify=true" >> ~/.local/share/applications/svcoptions.desktop
 echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/svcoptions.desktop
 echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/svcoptions.png" >> ~/.local/share/applications/svcoptions.desktop
-echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/svcoptions.desktop
+#echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/svcoptions.desktop
 chmod +x ~/.local/share/applications/svcoptions.desktop
 #
 #

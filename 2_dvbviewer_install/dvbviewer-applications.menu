@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Menu
+  PUBLIC '-//freedesktop//DTD Menu 1.0//EN'
+  'http://standards.freedesktop.org/menu-spec/menu-1.0.dtd'>
+<Menu>
+	<Name>Applications</Name>
+	<Menu>
+		<Name>dvbviewer</Name>
+		<Directory>dvbviewer.directory</Directory>
+		<Include>
+			<Filename>DVBVDownloader.desktop</Filename>
+			<Filename>DVBV-KeyTool.desktop</Filename>
+			<Filename>DVBViewer.desktop</Filename>
+			<Filename>DVBViewer-winecfg.desktop</Filename>
+			<Filename>DVBViewer_Power_Service_Config.desktop</Filename>
+			<Filename>DVBViewer_Power_Service_Tray.desktop</Filename>
+			<Filename>svcoptions.desktop</Filename>
+			<Filename>DVBViewerRunProgram.desktop</Filename>
+		</Include>
+	</Menu>
+</Menu>

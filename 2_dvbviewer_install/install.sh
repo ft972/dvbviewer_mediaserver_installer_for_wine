@@ -133,17 +133,17 @@ else
 fi
 #
 #
-if [ -f "$installsource/binary/oleaut32.dll" ];
-then
-    echo "oleaut32.dll already exists. Cancel download."
-else
-   echo Downloading oleaut32.dll
-   wget http://download.windowsupdate.com/msdownload/update/software/svpk/2011/02/windows6.1-kb976932-x86_c3516bc5c9e69fee6d9ac4f981f5b95977a8a2fa.exe &>/dev/null
-   cabextract -d "$installsource/binary" -L -F "x86_microsoft-windows-ole-automation_31bf3856ad364e35_6.1.7601.17514_none_bf07947959bc4c33/oleaut32.dll" "$installsource/binary"/windows6.1-kb976932-x86_c3516bc5c9e69fee6d9ac4f981f5b95977a8a2fa.exe &>/dev/null
-   mv "$installsource/binary/x86_microsoft-windows-ole-automation_31bf3856ad364e35_6.1.7601.17514_none_bf07947959bc4c33/oleaut32.dll" $installsource/binary &>/dev/null
-   rm windows6.1-kb976932-x86_c3516bc5c9e69fee6d9ac4f981f5b95977a8a2fa.exe &>/dev/null
-   rm -r "$installsource/binary/x86_microsoft-windows-ole-automation_31bf3856ad364e35_6.1.7601.17514_none_bf07947959bc4c33" &>/dev/null
-fi
+#if [ -f "$installsource/binary/oleaut32.dll" ];
+#then
+#    echo "oleaut32.dll already exists. Cancel download."
+#else
+#   echo Downloading oleaut32.dll
+#   wget http://download.windowsupdate.com/msdownload/update/software/svpk/2011/02/windows6.1-kb976932-x86_c3516bc5c9e69fee6d9ac4f981f5b95977a8a2fa.exe &>/dev/null
+#   cabextract -d "$installsource/binary" -L -F "x86_microsoft-windows-ole-automation_31bf3856ad364e35_6.1.7601.17514_none_bf07947959bc4c33/oleaut32.dll" "$installsource/binary"/windows6.1-kb976932-x86_c3516bc5c9e69fee6d9ac4f981f5b95977a8a2fa.exe &>/dev/null
+#   mv "$installsource/binary/x86_microsoft-windows-ole-automation_31bf3856ad364e35_6.1.7601.17514_none_bf07947959bc4c33/oleaut32.dll" $installsource/binary &>/dev/null
+#   rm windows6.1-kb976932-x86_c3516bc5c9e69fee6d9ac4f981f5b95977a8a2fa.exe &>/dev/null
+#   rm -r "$installsource/binary/x86_microsoft-windows-ole-automation_31bf3856ad364e35_6.1.7601.17514_none_bf07947959bc4c33" &>/dev/null
+#fi
 #
 if [ -f "$installsource/binary/LAVFilters-0.76.1-Installer.exe" ];
 then
@@ -203,14 +203,14 @@ env WINEARCH=win32 env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $
 #
 #
 # Installation oleaut32.dll----------------------------------------------------
-echo Installation of oleaut32.dll
-cp $installsource/binary/oleaut32.dll $dest/dvbviewer/drive_c/windows/system32
-env env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $installsource/oleaut32_DllOverride.reg &>/dev/null
+#echo Installation of oleaut32.dll
+#cp $installsource/binary/oleaut32.dll $dest/dvbviewer/drive_c/windows/system32
+#env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $installsource/oleaut32_DllOverride.reg &>/dev/null
 #
 # Installation VC++2019--------------------------------------------------------
 echo Installation of VC++2019
-env env WINEPREFIX=$dest/dvbviewer $wine_version $installsource/binary/vc_redist.x86.exe /Q &>/dev/null
-env env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $installsource/vcrun2019_DllOverride.reg &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version $installsource/binary/vc_redist.x86.exe /Q &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $installsource/vcrun2019_DllOverride.reg &>/dev/null
 #
 #
 #Install dotnet40---------------------------------------------------------
@@ -218,17 +218,17 @@ waiting_for_wineserver
 echo -n Installation of dotnet40. This can take a few minutes. Please be patient.
 sleep 1s
 echo -n .
-env env WINEPREFIX=$dest/dvbviewer $wine_version $installsource/binary/dotNetFx40_Full_x86_x64.exe /Q &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version $installsource/binary/dotNetFx40_Full_x86_x64.exe /Q &>/dev/null
 echo -n .
-env env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $installsource/dotnet40_DllOverride.reg &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version reg.exe import $installsource/dotnet40_DllOverride.reg &>/dev/null
 echo -n .
-env env WINEPREFIX=$dest/dvbviewer $wine_version reg add "HKLM\\Software\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full" /v Install /t REG_DWORD /d 0001 /f &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version reg add "HKLM\\Software\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full" /v Install /t REG_DWORD /d 0001 /f &>/dev/null
 echo -n .
-env env WINEPREFIX=$dest/dvbviewer $wine_version reg add "HKLM\\Software\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full" /v Version /t REG_SZ /d "4.0.30319" /f &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version reg add "HKLM\\Software\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full" /v Version /t REG_SZ /d "4.0.30319" /f &>/dev/null
 echo -n .
-env env WINEPREFIX=$dest/dvbviewer $wine_version $dest/dvbviewer/drive_c/windows/Microsoft.NET/Framework/v4.0.30319/ngen.exe executequeueditems &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version $dest/dvbviewer/drive_c/windows/Microsoft.NET/Framework/v4.0.30319/ngen.exe executequeueditems &>/dev/null
 echo -n .
-env env WINEPREFIX=$dest/dvbviewer $wine_version reg add "HKLM\\Software\\Microsoft\\.NETFramework" /v OnlyUseLatestCLR /t REG_DWORD /d 0001 /f &>/dev/null
+env WINEPREFIX=$dest/dvbviewer $wine_version reg add "HKLM\\Software\\Microsoft\\.NETFramework" /v OnlyUseLatestCLR /t REG_DWORD /d 0001 /f &>/dev/null
 echo . 
 echo Ready
 #
@@ -353,7 +353,8 @@ chmod +x $dest"/dvbviewer/keytool_start.sh"
 #
 #dvbviewer_run_program
 echo "#!/bin/bash" > $dest"/dvbviewer/dvbviewer_run_program.sh"
-echo 'prog=$(yad --file --width=800 --height=600 --title="Select Windows Executable") &>/dev/null' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+#echo 'prog=$(yad --file --width=800 --height=600 --title="Select Windows Executable") &>/dev/null' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+echo 'prog=$(yad --width=600 --height=50 --title="Select Windows Executable" --form --separator=" " --field="Select Windows Executable or type command:MFL") &>/dev/null' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo '[ $? = 1 ] && exit' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo "export WINEPREFIX="$dest"/dvbviewer" >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo "env WINEPREFIX=$dest/dvbviewer $wine_version "'$prog' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
@@ -365,59 +366,70 @@ chmod +x $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo Create starter
 #winecfg
 echo "[Desktop Entry]" > ~/.local/share/applications/DVBViewer-winecfg.desktop
-echo "Name=DVBViewer winecfg" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
+echo "Name=Winecfg" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
 echo "Exec="$dest"/dvbviewer/dvbviewer_winecfg_start.sh" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
 echo "Type=Application" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
 echo "StartupNotify=true" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
 echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
 echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" >> ~/.local/share/applications/DVBViewer-winecfg.desktop
-echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewer-winecfg.desktop
+#echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewer-winecfg.desktop
 chmod +x ~/.local/share/applications/DVBViewer-winecfg.desktop
 #
 #dvbviewer
 echo "[Desktop Entry]" > ~/.local/share/applications/DVBViewer.desktop
-echo "Name=DVBViewer" >> ~/.local/share/applications/DVBViewer.desktop
+echo "Name=DVBViewer Pro" >> ~/.local/share/applications/DVBViewer.desktop
 echo "Exec="$dest"/dvbviewer/dvbviewer_start.sh" >> ~/.local/share/applications/DVBViewer.desktop
 echo "Type=Application" >> ~/.local/share/applications/DVBViewer.desktop
 echo "StartupNotify=true" >> ~/.local/share/applications/DVBViewer.desktop
 echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/DVBViewer.desktop
 echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" >> ~/.local/share/applications/DVBViewer.desktop
-echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewer.desktop
+#echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewer.desktop
 chmod +x ~/.local/share/applications/DVBViewer.desktop
 #
 #dvbdownloader
 echo "[Desktop Entry]" > ~/.local/share/applications/DVBVDownloader.desktop
-echo "Name=DVBVDownloader" >> ~/.local/share/applications/DVBVDownloader.desktop
+echo "Name=DVBViewer Pro Downloader" >> ~/.local/share/applications/DVBVDownloader.desktop
 echo "Exec="$dest"/dvbviewer/dvbdownloader_start.sh" >> ~/.local/share/applications/DVBVDownloader.desktop
 echo "Type=Application" >> ~/.local/share/applications/DVBVDownloader.desktop
 echo "StartupNotify=true" >> ~/.local/share/applications/DVBVDownloader.desktop
 echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/DVBVDownloader.desktop
 echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/DVBVDownloader.png" >> ~/.local/share/applications/DVBVDownloader.desktop
-echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBVDownloader.desktop
+#echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBVDownloader.desktop
 chmod +x ~/.local/share/applications/DVBVDownloader.desktop
 #
 #keytool
 echo "[Desktop Entry]" > ~/.local/share/applications/DVBV-KeyTool.desktop
-echo "Name=DVBViewer-KeyTool" >> ~/.local/share/applications/DVBV-KeyTool.desktop
+echo "Name=DVBViewer Pro KeyTool" >> ~/.local/share/applications/DVBV-KeyTool.desktop
 echo "Exec="$dest"/dvbviewer/keytool_start.sh" >> ~/.local/share/applications/DVBV-KeyTool.desktop
 echo "Type=Application" >> ~/.local/share/applications/DVBV-KeyTool.desktop
 echo "StartupNotify=true" >> ~/.local/share/applications/DVBV-KeyTool.desktop
 echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/DVBV-KeyTool.desktop
 echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/KeyTool.png" >> ~/.local/share/applications/DVBV-KeyTool.desktop
-echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBV-KeyTool.desktop
+#echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBV-KeyTool.desktop
 chmod +x ~/.local/share/applications/DVBV-KeyTool.desktop
 #
 #
 #dvbviewer_run_program
 echo "[Desktop Entry]" > ~/.local/share/applications/DVBViewerRunProgram.desktop
-echo "Name=DVBViewer Run Program" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+echo "Name=Run Program or Command" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
 echo "Exec="$dest"/dvbviewer/dvbviewer_run_program.sh" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
 echo "Type=Application" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
 echo "StartupNotify=true" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
 echo "Path="$dest"/dvbviewer/dosdevices/c:/" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
 echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" >> ~/.local/share/applications/DVBViewerRunProgram.desktop
-echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewerRunProgram.desktop
+#echo "Categories=AudioVideo;Video;TV"  >> ~/.local/share/applications/DVBViewerRunProgram.desktop
 chmod +x ~/.local/share/applications/DVBViewerRunProgram.desktop
+#
+# create starter group---------------------------------------------------------
+mkdir ~/.local/share/desktop-directories
+cp $installsource/dvbviewer-applications.menu ~/.config/menus/applications-merged/
+#
+echo "[Desktop Entry]" > ~/.local/share/desktop-directories/dvbviewer.directory
+echo "Name=DVBViewer" >> ~/.local/share/desktop-directories/dvbviewer.directory
+echo "Comment=DVBViewer Applikations" >> ~/.local/share/desktop-directories/dvbviewer.directory
+echo "Icon="$dest"/dvbviewer/drive_c/Program Files/DVBViewer/DVBViewer.png" >> ~/.local/share/desktop-directories/dvbviewer.directory
+echo "Type=Directory" >> ~/.local/share/desktop-directories/dvbviewer.directory
+#
 #
 #Switch to WindowsXP-----------------------------------------------------------
 echo Change dvbviewer prefix to WindowsXP
