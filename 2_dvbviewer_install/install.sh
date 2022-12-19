@@ -357,7 +357,7 @@ echo "#!/bin/bash" > $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo 'prog=$(yad --width=600 --height=50 --title="Select Windows Executable" --form --separator=" " --field="Select Windows Executable or type command:MFL") &>/dev/null' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo '[ $? = 1 ] && exit' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 echo "export WINEPREFIX="$dest"/dvbviewer" >> $dest"/dvbviewer/dvbviewer_run_program.sh"
-echo "env WINEPREFIX=$dest/dvbviewer $wine_version "'$prog' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
+echo "env WINEPREFIX=$dest/dvbviewer $wine_version "'"$prog"' >> $dest"/dvbviewer/dvbviewer_run_program.sh"
 chmod +x $dest"/dvbviewer/dvbviewer_run_program.sh"
 #
 #
